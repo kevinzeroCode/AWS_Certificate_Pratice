@@ -10,6 +10,7 @@ from clf_batch2 import CLF_BATCH2
 from clf_batch3 import CLF_BATCH3
 from clf_batch4 import CLF_BATCH4
 from clf_batch5 import CLF_BATCH5
+from clf_batch6 import CLF_BATCH6
 from aif_batch1 import AIF_BATCH1
 from aif_batch2 import AIF_BATCH2
 from aif_batch3 import AIF_BATCH3
@@ -111,7 +112,7 @@ def parse_aif():
 # ── Convert CLF to unified format ─────────────────────────────────────────────
 def convert_clf():
     out = []
-    for q in CLF_QUESTIONS + NEW_CLF + CLF_BATCH2 + CLF_BATCH3 + CLF_BATCH4 + CLF_BATCH5:
+    for q in CLF_QUESTIONS + NEW_CLF + CLF_BATCH2 + CLF_BATCH3 + CLF_BATCH4 + CLF_BATCH5 + CLF_BATCH6:
         opts = {k: {'en': v['en'], 'zh': v['zh']} for k,v in q['options'].items()}
         out.append({
             'id': q['id'], 'exam': 'CLF',
@@ -136,7 +137,7 @@ clf_qs = convert_clf()
 print(f"  → {len(clf_qs)} CLF questions loaded")
 
 all_data = {'aif': aif_qs, 'clf': clf_qs}
-with open("C:/Users/USER/Documents/AWS/Certificate/quiz_data.json","w",encoding="utf-8") as f:
+with open("C:/Users/USER/Documents/AWS_Certificate_Pratice/quiz_data.json","w",encoding="utf-8") as f:
     json.dump(all_data, f, ensure_ascii=False, indent=2)
 print("  → quiz_data.json saved")
 
@@ -699,7 +700,7 @@ function clearHistory(){
 </body>
 </html>"""
 
-out_path = "C:/Users/USER/Documents/AWS/Certificate/aws_quiz.html"
+out_path = "C:/Users/USER/Documents/AWS_Certificate_Pratice/aws_quiz.html"
 with open(out_path, "w", encoding="utf-8") as f:
     f.write(HTML)
 print(f"\n✅ Generated: {out_path}")
