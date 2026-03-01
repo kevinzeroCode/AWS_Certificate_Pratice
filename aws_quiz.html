@@ -395,8 +395,7 @@ function startMode(mode){
   if(saved && saved.mode===mode && saved.qIndex < saved.questionIds.length-1){
     const mins = Math.round((Date.now()-saved.ts)/60000);
     const timeStr = mins < 60 ? mins+' 分鐘前' : Math.round(mins/60)+' 小時前';
-    if(confirm('找到'+timeStr+'的未完成進度 ('+saved.qIndex+'/'+saved.questionIds.length+' 題)
-Resume progress? ('+saved.qIndex+'/'+saved.questionIds.length+')')){
+    if(confirm('找到'+timeStr+'的未完成進度 ('+saved.qIndex+'/'+saved.questionIds.length+' 題)\nResume progress? ('+saved.qIndex+'/'+saved.questionIds.length+')')){
       const idMap = Object.fromEntries(pool.map(q=>[q.id,q]));
       quizQuestions = saved.questionIds.map(id=>idMap[id]).filter(Boolean);
       qIndex = saved.qIndex;
