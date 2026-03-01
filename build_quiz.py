@@ -389,9 +389,29 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,san
 const RAW = """ + JSON_STR + """;
 
 const QUESTIONS = {
-  AIF: RAW.aif.map(q => ({...q,
-    options: Object.fromEntries(Object.entries(q.options).map(([k,v])=>[k,typeof v==='string'?{en:v,zh:''}:v]))
-  })),
+  AIF: RAW.aif.map(q => {
+    const correct = q.correct ? (Array.isArray(q.correct) ? q.correct : [q.correct])
+                              : (q.answer ? [q.answer] : []);
+    const question_zh = q.question_zh || q.zh_question || '';
+    let explanations = q.explanations;
+    if (!explanations && q.option_explanations) {
+      const cs = new Set(correct);
+      explanations = {};
+      for (const [k,v] of Object.entries(q.option_explanations)) {
+        explanations[k] = (cs.has(k) ? '✓ 正確 — ' : '✗ 錯誤 — ') + v;
+      }
+    }
+    const options = Object.fromEntries(Object.entries(q.options).map(([k,v]) => {
+      if (typeof v === 'string') {
+        const zh = q.zh_options ? (q.zh_options[k] || '') : '';
+        return [k, {en:v, zh}];
+      }
+      return [k, v];
+    }));
+    return {...q, correct, question_zh, explanations, options,
+      multi: q.multi !== undefined ? q.multi : correct.length > 1,
+      exam: q.exam || q.category || 'AIF'};
+  }),
   CLF: RAW.clf
 };
 
